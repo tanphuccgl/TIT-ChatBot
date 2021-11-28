@@ -81,7 +81,7 @@ class _OpeningPageState extends State<OpeningPage> {
         style: GoogleFonts.inter(
             fontWeight: FontWeight.w400,
             fontSize: size.width / 23.1011,
-            color: HexColor.fromHex("#949BA5"),
+            color: Hex.fromHex("#949BA5"),
             letterSpacing: -0.015),
       ),
     );
@@ -95,7 +95,7 @@ class _OpeningPageState extends State<OpeningPage> {
       style: GoogleFonts.inter(
           fontWeight: FontWeight.w700,
           fontSize: size.width / 12.2725,
-          color: HexColor.fromHex("#212226"),
+          color: Hex.fromHex("#212226"),
           letterSpacing: -0.015),
     );
   }

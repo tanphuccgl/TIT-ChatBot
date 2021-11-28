@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tit_chat_bot/core/utils/appbar_cus.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tit_chat_bot/core/config/injection_container.dart';
+import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_bloc.dart';
+import 'package:tit_chat_bot/feature/conversation/presentation/widgets/body_conversation.dart';
+import 'package:tit_chat_bot/test.dart';
 
 class Conversation extends StatefulWidget {
   static const String routeName = "/Conversation";
@@ -13,19 +17,14 @@ class Conversation extends StatefulWidget {
 class _ConversationState extends State<Conversation> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
-      appBar: appBar(
-          context: context,
-          title: "Cuộc hội thoại",
-          action: IconButton(
-              onPressed: () {}, icon: Image.asset("assets/icons/Group.png"))),
-      body: Container(
-        width: size.width,
-        height: size.height,
-        child: Column(),
-      ),
+       backgroundColor: Colors.white,
+
+      body: buildBody(context),
     );
+  }
+
+  BlocProvider<ChatBloc> buildBody(BuildContext context) {
+    return BlocProvider(create: (_) => sl<ChatBloc>(), child: BodyConversation());
   }
 }

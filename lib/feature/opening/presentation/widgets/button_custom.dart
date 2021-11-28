@@ -15,11 +15,11 @@ Widget buttonCustom(
       height: size.width / 7.012,
       decoration: BoxDecoration(
         color: isColor == true
-            ? HexColor.fromHex("#4361EE")
-            : HexColor.fromHex("#FFFFFF"),
+            ? Hex.fromHex("#4361EE")
+            : Hex.fromHex("#FFFFFF"),
         border: isColor == true
             ? null
-            : Border.all(color: HexColor.fromHex("#4361EE"), width: 1.5),
+            : Border.all(color: Hex.fromHex("#4361EE"), width: 1.5),
         borderRadius: BorderRadius.all(
           Radius.circular(size.width / 28.051),
         ),
@@ -31,8 +31,8 @@ Widget buttonCustom(
               fontWeight: FontWeight.w500,
               fontSize: size.width / 23.101,
               color: isColor == true
-                  ? HexColor.fromHex("#FFFFFF")
-                  : HexColor.fromHex("#4361EE"),
+                  ? Hex.fromHex("#FFFFFF")
+                  : Hex.fromHex("#4361EE"),
               letterSpacing: -0.015),
         ),
       ),

@@ -19,30 +19,34 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      bottomNavigationBar: CustomBottomNavigationBar(
-        index: 0,
-      ),
+    return Scaffold(backgroundColor: Hex.fromHex("#f7f7f7"),resizeToAvoidBottomInset: false,
+      // bottomNavigationBar: CustomBottomNavigationBar(
+      //   index: 0,
+      // ),
       body: Container(
         width: size.width,
         height: size.height,
         child: Padding(
           padding: EdgeInsets.all(size.width / 20),
-          child: Column(
-            children: [
-              SizedBox(
-                height: size.width / 20,
-              ),
-              _header(
-                name: "Andie Le",
-                urlImage: "assets/images/Ellipse 3 (1).png",
-              ),
-              SizedBox(
-                height: size.width / 20,
-              ),
-              _background(),
-              gridView(context: context, list: list)
-            ],
+          child: Container(
+            width: size.width,
+            height: size.height,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: size.width / 20,
+                ),
+                _header(
+                  name: "Andie Le",
+                  urlImage: "assets/images/Ellipse 3 (1).png",
+                ),
+                SizedBox(
+                  height: size.width / 20,
+                ),
+                _background(),
+                listView(context: context)
+              ],
+            ),
           ),
         ),
       ),
@@ -58,12 +62,15 @@ class _HomePageState extends State<HomePage> {
         children: [
           Align(
             alignment: Alignment.topRight,
-            child: cardChat(
-                context: context,
-                content: "Hãy chọn lĩnh vực bạn cần TIT Tư vấn nhé!",isLeft: true),
+            child: Container(
+              child: cardChat(
+                  context: context,
+                  content: "Hãy chọn lĩnh vực bạn cần TIT Tư vấn nhé!",
+                  isLeft: true),
+            ),
           ),
           Positioned(
-              top: size.width / 13,
+              top: size.width / 35,
               child: Align(alignment: Alignment.topLeft, child: _imageBot())),
         ],
       ),
@@ -71,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _imageBot() {
-    return Image.asset("assets/images/zyro-image 2.png");
+    return Image.asset("assets/images/zyro-image 2.png",fit: BoxFit.cover,);
   }
 
   Widget _header({String? name, String? urlImage}) {
@@ -106,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                       style: GoogleFonts.inter(
                           fontWeight: FontWeight.w700,
                           fontSize: size.width / 21.81,
-                          color: HexColor.fromHex("#212226"),
+                          color: Hex.fromHex("#212226"),
                           letterSpacing: -0.015),
                     ),
                     Text(
@@ -114,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                       style: GoogleFonts.inter(
                           fontWeight: FontWeight.w500,
                           fontSize: size.width / 24.545,
-                          color: HexColor.fromHex("#949BA5"),
+                          color: Hex.fromHex("#949BA5"),
                           letterSpacing: -0.015),
                     ),
                   ],
