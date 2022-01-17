@@ -1,5 +1,7 @@
-const mainUrl = "http://54.179.2.57:5005";
 
+const String mainUrl="https://chatbot.titkul.edu.vn/webhooks/rest/webhook";
+
+// http://54.179.2.57:5005
 const SAVE_PROFILE_RESPONSE = "SAVE_PROFILE_RESPONSE";
 const SAVE_LOGIN_RESPONSE = "SAVE_LOGIN_RESPONSE";
 

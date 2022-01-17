@@ -7,7 +7,7 @@ import 'package:tit_chat_bot/feature/home/presentation/pages/home_page.dart';
 
 Widget listView({BuildContext? context}) {
   Size size = MediaQuery.of(context!).size;
-  return Container(
+  return SizedBox(
     height: size.width / 1.2,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
@@ -28,7 +28,7 @@ Widget item({BuildContext? context, Field? field}) {
   Size size = MediaQuery.of(context!).size;
   return Padding(
     padding: EdgeInsets.all(size.width / 35),
-    child: Container(
+    child: SizedBox(
       width: size.width / 3,
       height: size.width / 2.8,
       child: ElevatedButton(
@@ -44,7 +44,7 @@ Widget item({BuildContext? context, Field? field}) {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
                 width: size.width / 6,
                 height: size.width / 6,
                 child: CircleAvatar(
@@ -65,7 +65,7 @@ Widget item({BuildContext? context, Field? field}) {
         ),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Conversation()));
+              context, MaterialPageRoute(builder: (context) => const Conversation()));
         },
       ),
     ),
@@ -89,17 +89,3 @@ List<Field> listField2 = [
   Field(title: "Nha Khoa", asset: "assets/images/Rectangle 1048 (5).png"),
   Field(title: "Nhân Sự", asset: "assets/images/Rectangle 1049-1.png"),
 ];
-
-// BoxShadow(
-// color: Color.fromRGBO(69, 97, 238, 0.4),
-// blurRadius: 16,
-// offset: Offset(0, 4), /
-
-// Text(
-// list[index].text!,
-// style: GoogleFonts.inter(
-// fontWeight: FontWeight.w700,
-// fontSize: size.width / 24.545,
-// color: HexColor.fromHex("#FFFFFF"),
-// letterSpacing: 0.0028),
-// ),

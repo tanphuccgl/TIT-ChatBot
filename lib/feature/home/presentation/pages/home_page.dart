@@ -19,16 +19,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(backgroundColor: Hex.fromHex("#f7f7f7"),resizeToAvoidBottomInset: false,
-      // bottomNavigationBar: CustomBottomNavigationBar(
-      //   index: 0,
-      // ),
-      body: Container(
+    return Scaffold(
+      backgroundColor: Hex.fromHex("#f7f7f7"),
+      resizeToAvoidBottomInset: false,
+      body: SizedBox(
         width: size.width,
         height: size.height,
         child: Padding(
           padding: EdgeInsets.all(size.width / 20),
-          child: Container(
+          child: SizedBox(
             width: size.width,
             height: size.height,
             child: Column(
@@ -56,7 +55,7 @@ class _HomePageState extends State<HomePage> {
   Widget _background() {
     Size size = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       height: size.width / 1.4,
       child: Stack(
         children: [
@@ -78,13 +77,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _imageBot() {
-    return Image.asset("assets/images/zyro-image 2.png",fit: BoxFit.cover,);
+    return Image.asset(
+      "assets/images/zyro-image 2.png",
+      fit: BoxFit.cover,
+    );
   }
 
   Widget _header({String? name, String? urlImage}) {
     Size size = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       height: size.width / 8.01,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +104,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 width: size.width / 30,
               ),
-              Container(
+              SizedBox(
                 height: size.width / 8.01,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

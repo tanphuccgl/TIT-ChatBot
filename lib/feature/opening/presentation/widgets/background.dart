@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 Widget background({BuildContext? context}) {
   Size size = MediaQuery.of(context!).size;
-  return Container(
+  return SizedBox(
     width: size.width,
     height: (2 * size.height) / 3,
     child: Stack(

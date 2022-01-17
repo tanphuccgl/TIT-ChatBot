@@ -7,7 +7,7 @@ import 'package:tit_chat_bot/core/config/const.dart';
 import 'package:tit_chat_bot/core/error/exceptions.dart';
 import 'package:tit_chat_bot/feature/conversation/data/models/chat_res.dart';
 
-List<ChatData> breweryModelFromJson(String str) =>
+List<ChatData> chatModelFromJson(String str) =>
     List<ChatData>.from(json.decode(str).map((x) => ChatData.fromJson(x)));
 
 abstract class ChatRemoteDataSource {
@@ -27,22 +27,26 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<List<ChatData>> _chat(String sender, String message) async {
     var body = jsonEncode({'sender': sender, 'message': message});
     final response = await client
-        ?.post(Uri.parse('$mainUrl/webhooks/rest/webhook'),
+        ?.post(Uri.parse(mainUrl),
             headers: {
               "Accept": "application/json",
-              "content-type": "application/json" // k co header la failed 415
-              //'Content-Type': 'application/x-www-form-urlencoded'
+              "content-type": "application/json"
             },
             body: body)
-        .timeout(Duration(seconds: 15));
-    log("Post Chat: " + '$mainUrl/webhooks/rest/webhook');
-    log("Post body Chat: " + body);
-    log("Response Json Chat: ${json.decode(response!.body)}");
+        .timeout(const Duration(seconds: 15), onTimeout: () {
+      return http.Response("Error", 408);
+    });
+
+    log("Post body Chat: ${response!.statusCode} ");
 
     if (response.statusCode == 200) {
-      var success = breweryModelFromJson(response.body);
-      print(success);
+      var success = chatModelFromJson(response.body);
+
       return success;
+    } else if (response.statusCode == 408) {
+      print("Time out roi phuc oi ");
+
+      throw ServerException();
     } else {
       throw ServerException();
     }

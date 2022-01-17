@@ -8,6 +8,4 @@ class PageRoutes {
   static const String homePage = HomePage.routeName;
   static const String conversation = Conversation.routeName;
   static const String aa = AA.routeName;
-
-
 }

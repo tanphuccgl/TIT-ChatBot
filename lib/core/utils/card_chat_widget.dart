@@ -3,8 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tit_chat_bot/core/utils/hex_color.dart';
 
-Widget cardChat({BuildContext? context, String? content, bool? isLeft}) {
-  Size size = MediaQuery.of(context!).size;
+Widget cardChat(
+    {BuildContext? context, String? content, bool? isLeft,
+
+    }) {
+  Size size = MediaQuery
+      .of(context!)
+      .size;
   return Container(
     // width: size.width / 1.65,
     decoration: BoxDecoration(
@@ -40,8 +45,11 @@ Widget cardChat({BuildContext? context, String? content, bool? isLeft}) {
   );
 }
 
-Widget suggestions({BuildContext? context, String? content,Function()? onTap}) {
-  Size size = MediaQuery.of(context!).size;
+Widget suggestions(
+    {BuildContext? context, String? content, Function()? onTap}) {
+  Size size = MediaQuery
+      .of(context!)
+      .size;
   return Align(alignment: Alignment.topRight,
     child: Padding(
       padding: const EdgeInsets.all(10),
@@ -61,7 +69,8 @@ Widget suggestions({BuildContext? context, String? content,Function()? onTap}) {
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: size.width / 32.72, vertical: size.width / 24.545),
+                  horizontal: size.width / 32.72,
+                  vertical: size.width / 24.545),
               child: AutoSizeText(
                 "$content",
                 group: AutoSizeGroup(),

@@ -19,18 +19,17 @@ class _OpeningPageState extends State<OpeningPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print("size width : ${size.width}");
-    print("size heigth : ${size.height}");
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
+      body: SizedBox(
           width: size.width,
           height: size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               background(context: context),
-              Container(
+              SizedBox(
                   width: size.width,
                   height: (size.height) / 3,
                   child: Column(
@@ -57,7 +56,7 @@ class _OpeningPageState extends State<OpeningPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomePage()));
+                                        builder: (context) => const HomePage()));
                               },
                               isColor: false,
                               context: context),
@@ -73,7 +72,7 @@ class _OpeningPageState extends State<OpeningPage> {
   Widget _description() {
     Size size = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       width: size.width / 1.2,
       child: Text(
         "Giải đáp thắc mắc, tìm kiếm thông tin trên nhiều lĩnh vực cho bạn ",

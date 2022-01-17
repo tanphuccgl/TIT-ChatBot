@@ -33,34 +33,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
         break;
       case 3:
-        // Navigator.pushNamedAndRemoveUntil(
-        //     context, PageRoutes.historyPage, (Route<dynamic> route) => false);
-
         break;
       case 4:
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => new AlertDialog(
-        //     title: new Text('Quit?'),
-        //     content: new Text('Do you really want logout?'),
-        //     actions: <Widget>[
-        //       new FlatButton(
-        //         onPressed: () {
-        //           prefs!.setString(SAVE_LOGIN_RESPONSE, '');
-        //
-        //           Navigator.pushNamedAndRemoveUntil(context,
-        //               PageRoutes.loginPage, (Route<dynamic> route) => false);
-        //         },
-        //         child: new Text('Yes'),
-        //       ),
-        //       new FlatButton(
-        //         onPressed: () => Navigator.of(context).pop(false),
-        //         child: new Text('No'),
-        //       ),
-        //     ],
-        //   ),
-        // );
-
         break;
     }
   }
@@ -68,7 +42,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         boxShadow: [
           BoxShadow(
               color: Color.fromRGBO(239, 241, 244, 1),

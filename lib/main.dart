@@ -30,11 +30,11 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home:  HomePage(),
+      home:   const OpeningPage(),
       routes: {
-        PageRoutes.homePage: (context) => HomePage(),
-        PageRoutes.openingPage: (context) => OpeningPage(),
-        PageRoutes.conversation: (context) => Conversation(),
+        PageRoutes.homePage: (context) => const HomePage(),
+        PageRoutes.openingPage: (context) => const OpeningPage(),
+        PageRoutes.conversation: (context) =>  const Conversation(),
         PageRoutes.aa: (context) => AA(),
 
 

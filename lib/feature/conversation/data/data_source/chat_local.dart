@@ -21,7 +21,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
   Future<List<ChatData>> getChat() {
     final jsonString = sharedPreferences.getString(SAVE_CHAT_RESPONSE);
     if (jsonString != null && jsonString != '') {
-      return Future.value(breweryModelFromJson(jsonString));
+      return Future.value(chatModelFromJson(jsonString));
     } else {
       throw CacheException();
     }
