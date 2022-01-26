@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-
 class ChatData {
   String? recipientId;
   String? text;
@@ -13,9 +10,9 @@ class ChatData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['recipient_id'] = this.recipientId;
-    data['text'] = this.text;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['recipient_id'] = recipientId;
+    data['text'] = text;
     return data;
   }
 }

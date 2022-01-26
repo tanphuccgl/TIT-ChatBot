@@ -1,20 +1,14 @@
-import 'dart:async';
 import 'dart:convert';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:screenshot/screenshot.dart';
 import 'package:tit_chat_bot/core/utils/appbar_cus.dart';
 import 'package:tit_chat_bot/core/utils/card_chat_widget.dart';
 import 'package:tit_chat_bot/core/utils/device_info.dart';
 import 'package:tit_chat_bot/core/utils/hex_color.dart';
-import 'package:tit_chat_bot/core/utils/spinkit.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_bloc.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_event.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_state.dart';
@@ -69,23 +63,21 @@ class _BodyConversationState extends State<BodyConversation> {
   Widget build(BuildContext context) {
     return BlocBuilder<ChatBloc, ChatState>(builder: (context, state) {
       if (state is Empty) {
-
         isChat();
       } else if (state is ChatAlready) {
         prefs!.getStringList("list");
 
-        return _buildBody();
+        return _buildBody(isLoading: false);
       } else if (state is Loaded) {
         prefs!.getStringList("list");
 
-
         appChat = state.data.first;
 
-        Map<String, dynamic> user = {'name': 'user', 'message': '$message'};
-        prefs?.setString('user', jsonEncode(user));
+        // Map<String, dynamic> user = {'name': 'user', 'message': '$message'};
+        // prefs?.setString('user', jsonEncode(user));
 
-        list?.add(prefs!.getString('user')!);
-        prefs?.setStringList("list", list!);
+        // list?.add(prefs!.getString('user')!);
+        // prefs?.setStringList("list", list!);
 
         Map<String, dynamic> admin = {
           'name': 'admin',
@@ -94,10 +86,14 @@ class _BodyConversationState extends State<BodyConversation> {
         prefs?.setString('admin', jsonEncode(admin));
         list?.add(prefs!.getString('admin')!);
         prefs?.setStringList("list", list!);
-        return _buildBody();
+        return _buildBody(isLoading: false);
       } else if (state is Loading) {
+        Map<String, dynamic> user = {'name': 'user', 'message': '$message'};
+        prefs?.setString('user', jsonEncode(user));
 
-        return _buildBody();
+        list?.add(prefs!.getString('user')!);
+        prefs?.setStringList("list", list!);
+        return _buildBody(isLoading: true);
       } else if (state is Error) {
         return Container();
       } else if (state is NotChat) {
@@ -110,13 +106,13 @@ class _BodyConversationState extends State<BodyConversation> {
           list?.add(prefs!.getString('user')!);
           prefs?.setStringList("list", list!);
         }
-        return _buildBody(chatNew: true);
+        return _buildBody(chatNew: true, isLoading: false);
       }
       return Container();
     });
   }
 
-  Widget _listChat() {
+  Widget _listChat({bool? isLoading}) {
     Size size = MediaQuery.of(context).size;
     List list;
     if (prefs!.getStringList("list") != null) {
@@ -125,10 +121,95 @@ class _BodyConversationState extends State<BodyConversation> {
       list = [];
     }
 
+    /// Khi mà gửi tin nhắn thì thêm  một giá trị ảo vô list
+    /// rồi cho giá trị đó loading , sau khi api response thì
+    /// xóa giá trị ảo đồng thời thêm lại giá trị thật
+    /// và cho hiển thị ra màn hình
+    /// => lấy được giá trị ảo đó ra và set nó loading
+
     return ListView.builder(
         controller: _controller,
         reverse: true,
+        // separatorBuilder: (BuildContext context, int index) {
+        //   print("${list.length - 1}");
+        //   if (list[index] == list[0]) {
+        //     print("1");
+        //     return Container(
+        //       height: 50,
+        //       color: Colors.red,
+        //       child: Text("haha 1"),
+        //     );
+        //   } else {
+        //     print("2");
+        //     return Text("haha 2");
+        //   }
+        // },
         itemBuilder: (context, index) {
+          print("huhu " + "${[index]}");
+          if (list[index] == list[0]) {
+            //  print("1");
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                /// avatar icon
+                jsonDecode(list[index])["name"] == "user"
+                    ? const SizedBox.shrink()
+                    : Padding(
+                        padding: EdgeInsets.only(
+                            left: size.width / 60, bottom: size.width / 50),
+                        child: SizedBox(
+                          width: size.width / 10,
+                          child: const CircleAvatar(
+                            backgroundImage:
+                                AssetImage("assets/icons/Group (1).png"),
+                          ),
+                        ),
+                      ),
+
+                ///card
+                // list.reversed?.last == "{\"name\":\"admin\",\"message\":\"Xin chào\"}"  ?  SizedBox(
+                //             width: jsonDecode(list[index])["name"] == "user"
+                //                 ? size.width
+                //                 : size.width / 1.15,
+                //             child: Align(
+                //               alignment: jsonDecode(list[index])["name"] == "user"
+                //                   ? Alignment.topRight
+                //                   : Alignment.topLeft,
+                //               child: Padding(
+                //                 padding: const EdgeInsets.all(10),
+                //                 child: cardChat(
+                //                     context: context,isLoading: jsonDecode(list[index])["name"] == "user"
+                //                         ? false :(isLoading==true ?true:false ),
+                //                     isLeft: jsonDecode(list[index])["name"] == "user"
+                //                         ? false
+                //                         : true,
+                //                     content: jsonDecode(list[index])["message"]),
+                //               ),
+                //             ),
+                //        ):
+                SizedBox(
+                  width: jsonDecode(list[index])["name"] == "user"
+                      ? size.width
+                      : size.width / 1.15,
+                  child: Align(
+                    alignment: jsonDecode(list[index])["name"] == "user"
+                        ? Alignment.topRight
+                        : Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: cardChat(
+                          context: context,
+                          isLoading: true,
+                          isLeft: jsonDecode(list[index])["name"] == "user"
+                              ? false
+                              : true,
+                          content: jsonDecode(list[index])["message"]),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
           return jsonDecode(list[index]) != null
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -149,6 +230,26 @@ class _BodyConversationState extends State<BodyConversation> {
                           ),
 
                     ///card
+                    // list.reversed?.last == "{\"name\":\"admin\",\"message\":\"Xin chào\"}"  ?  SizedBox(
+                    //             width: jsonDecode(list[index])["name"] == "user"
+                    //                 ? size.width
+                    //                 : size.width / 1.15,
+                    //             child: Align(
+                    //               alignment: jsonDecode(list[index])["name"] == "user"
+                    //                   ? Alignment.topRight
+                    //                   : Alignment.topLeft,
+                    //               child: Padding(
+                    //                 padding: const EdgeInsets.all(10),
+                    //                 child: cardChat(
+                    //                     context: context,isLoading: jsonDecode(list[index])["name"] == "user"
+                    //                         ? false :(isLoading==true ?true:false ),
+                    //                     isLeft: jsonDecode(list[index])["name"] == "user"
+                    //                         ? false
+                    //                         : true,
+                    //                     content: jsonDecode(list[index])["message"]),
+                    //               ),
+                    //             ),
+                    //        ):
                     SizedBox(
                       width: jsonDecode(list[index])["name"] == "user"
                           ? size.width
@@ -161,6 +262,7 @@ class _BodyConversationState extends State<BodyConversation> {
                           padding: const EdgeInsets.all(10),
                           child: cardChat(
                               context: context,
+                              isLoading: false,
                               isLeft: jsonDecode(list[index])["name"] == "user"
                                   ? false
                                   : true,
@@ -175,7 +277,7 @@ class _BodyConversationState extends State<BodyConversation> {
         itemCount: list.length);
   }
 
-  Widget _buildBody({bool? chatNew}) {
+  Widget _buildBody({bool? chatNew, bool? isLoading}) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -192,7 +294,8 @@ class _BodyConversationState extends State<BodyConversation> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: SizedBox(width: size.width, child: _listChat()),
+              child: SizedBox(
+                  width: size.width, child: _listChat(isLoading: isLoading)),
             ),
             chatNew == true
                 ? Column(

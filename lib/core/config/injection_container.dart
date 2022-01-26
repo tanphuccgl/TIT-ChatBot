@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,7 @@ Future<void> init() async {
   ///
   //Chat
   sl.registerFactory(
-        () => ChatBloc(
+    () => ChatBloc(
       lg: sl(),
       cu: sl(),
     ),
@@ -33,14 +34,12 @@ Future<void> init() async {
       chatLocalDataSource: sl(),
       chatRemoteDataSource: sl()));
 
-
   ///data source
   //Chat
   sl.registerLazySingleton<ChatRemoteDataSource>(
-          () => ChatRemoteDataSourceImpl(client: sl()));
+      () => ChatRemoteDataSourceImpl(client: sl()));
   sl.registerLazySingleton<ChatLocalDataSource>(
-          () => ChatLocalDataSourceImpl(sharedPreferences: sl()));
-
+      () => ChatLocalDataSourceImpl(sharedPreferences: sl()));
 
   ///core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

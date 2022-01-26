@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tit_chat_bot/core/config/injection_container.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_bloc.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/widgets/body_conversation.dart';
-import 'package:tit_chat_bot/feature/conversation/presentation/widgets/body_conversation1.dart';
-import 'package:tit_chat_bot/test.dart';
 
 class Conversation extends StatefulWidget {
   static const String routeName = "/Conversation";
@@ -18,14 +16,14 @@ class Conversation extends StatefulWidget {
 class _ConversationState extends State<Conversation> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-       backgroundColor: Colors.white,
-
+    return Scaffold(
+      backgroundColor: Colors.white,
       body: buildBody(context),
     );
   }
 
   BlocProvider<ChatBloc> buildBody(BuildContext context) {
-    return BlocProvider(create: (_) => sl<ChatBloc>(), child:  const BodyConversation());
+    return BlocProvider(
+        create: (_) => sl<ChatBloc>(), child: const BodyConversation());
   }
 }

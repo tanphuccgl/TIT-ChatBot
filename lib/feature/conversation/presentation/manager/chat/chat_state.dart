@@ -5,7 +5,6 @@ import 'package:tit_chat_bot/feature/conversation/data/models/chat_res.dart';
 @immutable
 abstract class ChatState extends Equatable {
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -18,7 +17,6 @@ class Loaded extends ChatState {
   Loaded({required this.data});
 
   @override
-  // TODO: implement props
   List<Object> get props => [data];
 }
 
@@ -26,7 +24,6 @@ class Error extends ChatState {
   final String message;
   Error({required this.message});
   @override
-  // TODO: implement props
   List<Object> get props => [message];
 }
 

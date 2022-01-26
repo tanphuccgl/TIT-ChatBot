@@ -21,9 +21,8 @@ class ChatParams extends Equatable {
   final String? sender;
   final String? message;
 
-  ChatParams({@required this.sender, @required this.message});
+  const ChatParams({@required this.sender, @required this.message});
 
   @override
-  // TODO: implement props
   List<Object> get props => [sender!, message!];
 }

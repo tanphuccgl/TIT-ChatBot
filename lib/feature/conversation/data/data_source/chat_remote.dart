@@ -25,6 +25,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   Future<List<ChatData>> _chat(String sender, String message) async {
+    await Future.delayed(Duration(seconds: 5));
     var body = jsonEncode({'sender': sender, 'message': message});
     final response = await client
         ?.post(Uri.parse(mainUrl),
@@ -44,8 +45,6 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
       return success;
     } else if (response.statusCode == 408) {
-      print("Time out roi phuc oi ");
-
       throw ServerException();
     } else {
       throw ServerException();
