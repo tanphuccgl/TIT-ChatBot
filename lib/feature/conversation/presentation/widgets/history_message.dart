@@ -17,7 +17,7 @@ class HistoryMessage extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     List list = Prefs.getLocalListMessage().reversed.toList();
 
-    return ListView.builder(
+    return ListView.builder(physics: const BouncingScrollPhysics(),
         controller: scrollController,
         reverse: true,
         itemBuilder: (context, index) {

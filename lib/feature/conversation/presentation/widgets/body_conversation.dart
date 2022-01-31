@@ -54,23 +54,20 @@ class _BodyConversationState extends State<BodyConversation> {
         String appChat = state.data.first.text ?? "N/A";
 
         Map<String, dynamic> admin = {'name': 'admin', 'message': appChat};
-      
+
         Prefs.saveLocalListMessage(list, admin: jsonEncode(admin));
 
         return buildBody();
       } else if (state is Loading) {
         Map<String, dynamic> user = {'name': 'user', 'message': message};
 
-
         Prefs.saveLocalListMessage(list,
             user: jsonEncode(user), lazyLoading: "lazyLoading");
-
+        message = "";
         return buildBody(isLoading: true);
       } else if (state is Error) {
         return Container();
       } else if (state is NotChat) {
-      
-      
         return buildBody(
           isShowSugg: true,
         );
@@ -91,14 +88,14 @@ class _BodyConversationState extends State<BodyConversation> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-                    child: SizedBox(
-                        width: size.width,
-                        child: HistoryMessage(
-                          isLoading: isLoading,
-                          scrollController: _controller,
-                        )),
-                  ),
-                   isShowSugg == true
+              child: SizedBox(
+                  width: size.width,
+                  child: HistoryMessage(
+                    isLoading: isLoading,
+                    scrollController: _controller,
+                  )),
+            ),
+            isShowSugg == true
                 ? Expanded(child: suggestionList())
                 : const SizedBox.shrink(),
             Container(
@@ -150,12 +147,13 @@ class _BodyConversationState extends State<BodyConversation> {
       chat();
     }
 
-    messageController.text = "";
+    // auto scroll to end list view
     _controller.animateTo(
       0.0,
       curve: Curves.easeOut,
-      duration: const Duration(milliseconds: 5000),
+      duration: const Duration(milliseconds: 500),
     );
+    messageController.text = "";
   }
 
   void chat() {
