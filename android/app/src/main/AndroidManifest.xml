@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tit_chat_bot">
    <application
-        android:label="tit_chat_bot"
+        android:label="TIT CHATBOT"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

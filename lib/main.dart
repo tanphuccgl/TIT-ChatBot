@@ -12,7 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
   prefs = await SharedPreferences.getInstance();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 SharedPreferences? prefs;
 ChatData? appChat;
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',debugShowCheckedModeBanner: false,
+      title: 'TIT CHATBOT',debugShowCheckedModeBanner: false,
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
 
