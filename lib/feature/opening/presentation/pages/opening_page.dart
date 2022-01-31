@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:tit_chat_bot/core/utils/hex_color.dart';
-import 'package:tit_chat_bot/feature/home/presentation/pages/home_page.dart';
-import 'package:tit_chat_bot/feature/home/presentation/widgets/cus_bottom_navi_bar.dart';
 import 'package:tit_chat_bot/feature/opening/presentation/widgets/background.dart';
-import 'package:tit_chat_bot/feature/opening/presentation/widgets/button_custom.dart';
+import 'package:tit_chat_bot/feature/opening/presentation/widgets/bottom_bar.dart';
+import 'package:tit_chat_bot/feature/opening/presentation/widgets/title.dart';
 
 class OpeningPage extends StatefulWidget {
   static const String routeName = "/OpeningPage";
@@ -28,74 +25,21 @@ class _OpeningPageState extends State<OpeningPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              background(context: context),
+              const XBackground(),
               SizedBox(
                   width: size.width,
                   height: (size.height) / 3,
                   child: Column(
                     children: [
-                      _title(),
-                      SizedBox(
-                        height: size.width / 20,
-                      ),
-                      _description(),
+                      const XTitle(),
                       SizedBox(
                         height: size.width / 15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          buttonCustom(
-                              text: "Sign Up",
-                              function: () {},
-                              isColor: true,
-                              context: context),
-                          buttonCustom(
-                              text: "Sign In",
-                              function: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const HomePage()));
-                              },
-                              isColor: false,
-                              context: context),
-                        ],
-                      ),
+                      const XBottomBar(),
                     ],
                   )),
             ],
           )),
-    );
-  }
-
-  Widget _description() {
-    Size size = MediaQuery.of(context).size;
-
-    return SizedBox(
-      width: size.width / 1.2,
-      child: Text(
-        "Giải đáp thắc mắc, tìm kiếm thông tin trên nhiều lĩnh vực cho bạn ",
-        textAlign: TextAlign.center,
-        style: GoogleFonts.inter(
-            fontWeight: FontWeight.w400,
-            fontSize: size.width / 23.1011,
-            color: Hex.fromHex("#949BA5"),
-            letterSpacing: -0.015),
-      ),
-    );
-  }
-
-  Widget _title() {
-    Size size = MediaQuery.of(context).size;
-
-    return Text(
-      "TIT - ChatBot",
-      style: GoogleFonts.inter(
-          fontWeight: FontWeight.w700,
-          fontSize: size.width / 12.2725,
-          color: Hex.fromHex("#212226"),
-          letterSpacing: -0.015),
     );
   }
 }
