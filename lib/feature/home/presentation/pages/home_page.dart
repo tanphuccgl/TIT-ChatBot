@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.topRight,
             child: Container(
               child: cardChat(
-                  context: context,
+                  context: context,isLoading: false,
                   content: "Hãy chọn lĩnh vực bạn cần TIT Tư vấn nhé!",
                   isLeft: true),
             ),

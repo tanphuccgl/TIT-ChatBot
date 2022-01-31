@@ -25,7 +25,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   Future<List<ChatData>> _chat(String sender, String message) async {
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 3));
     var body = jsonEncode({'sender': sender, 'message': message});
     final response = await client
         ?.post(Uri.parse(mainUrl),

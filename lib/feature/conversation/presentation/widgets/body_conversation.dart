@@ -56,7 +56,9 @@ class _BodyConversationState extends State<BodyConversation> {
     super.initState();
 
     /// clear cache
-    //   prefs?.clear();
+    //  prefs?.remove("list");
+    //   prefs?.remove("user");
+    //    prefs?.remove("admin");
   }
 
   @override
@@ -65,10 +67,12 @@ class _BodyConversationState extends State<BodyConversation> {
       if (state is Empty) {
         isChat();
       } else if (state is ChatAlready) {
+        print("oke");
         prefs!.getStringList("list");
 
         return _buildBody(isLoading: false);
       } else if (state is Loaded) {
+        list?.removeLast();
         prefs!.getStringList("list");
 
         appChat = state.data.first;
@@ -85,6 +89,7 @@ class _BodyConversationState extends State<BodyConversation> {
         };
         prefs?.setString('admin', jsonEncode(admin));
         list?.add(prefs!.getString('admin')!);
+
         prefs?.setStringList("list", list!);
         return _buildBody(isLoading: false);
       } else if (state is Loading) {
@@ -92,11 +97,16 @@ class _BodyConversationState extends State<BodyConversation> {
         prefs?.setString('user', jsonEncode(user));
 
         list?.add(prefs!.getString('user')!);
+
+        list?.add("{\"name\":\"temp\",\"message\":\"temp\"}");
+
         prefs?.setStringList("list", list!);
+
         return _buildBody(isLoading: true);
       } else if (state is Error) {
         return Container();
       } else if (state is NotChat) {
+        print("not oke");
         prefs?.setStringList("list", list!);
 
         if (message!.length > 0) {
@@ -115,6 +125,7 @@ class _BodyConversationState extends State<BodyConversation> {
   Widget _listChat({bool? isLoading}) {
     Size size = MediaQuery.of(context).size;
     List list;
+
     if (prefs!.getStringList("list") != null) {
       list = prefs!.getStringList("list")!.reversed.toList();
     } else {
@@ -145,9 +156,7 @@ class _BodyConversationState extends State<BodyConversation> {
         //   }
         // },
         itemBuilder: (context, index) {
-          print("huhu " + "${[index]}");
-          if (list[index] == list[0]) {
-            //  print("1");
+          if (list[index] == "{\"name\":\"temp\",\"message\":\"temp\"}") {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -166,27 +175,6 @@ class _BodyConversationState extends State<BodyConversation> {
                         ),
                       ),
 
-                ///card
-                // list.reversed?.last == "{\"name\":\"admin\",\"message\":\"Xin chào\"}"  ?  SizedBox(
-                //             width: jsonDecode(list[index])["name"] == "user"
-                //                 ? size.width
-                //                 : size.width / 1.15,
-                //             child: Align(
-                //               alignment: jsonDecode(list[index])["name"] == "user"
-                //                   ? Alignment.topRight
-                //                   : Alignment.topLeft,
-                //               child: Padding(
-                //                 padding: const EdgeInsets.all(10),
-                //                 child: cardChat(
-                //                     context: context,isLoading: jsonDecode(list[index])["name"] == "user"
-                //                         ? false :(isLoading==true ?true:false ),
-                //                     isLeft: jsonDecode(list[index])["name"] == "user"
-                //                         ? false
-                //                         : true,
-                //                     content: jsonDecode(list[index])["message"]),
-                //               ),
-                //             ),
-                //        ):
                 SizedBox(
                   width: jsonDecode(list[index])["name"] == "user"
                       ? size.width
@@ -229,27 +217,6 @@ class _BodyConversationState extends State<BodyConversation> {
                             ),
                           ),
 
-                    ///card
-                    // list.reversed?.last == "{\"name\":\"admin\",\"message\":\"Xin chào\"}"  ?  SizedBox(
-                    //             width: jsonDecode(list[index])["name"] == "user"
-                    //                 ? size.width
-                    //                 : size.width / 1.15,
-                    //             child: Align(
-                    //               alignment: jsonDecode(list[index])["name"] == "user"
-                    //                   ? Alignment.topRight
-                    //                   : Alignment.topLeft,
-                    //               child: Padding(
-                    //                 padding: const EdgeInsets.all(10),
-                    //                 child: cardChat(
-                    //                     context: context,isLoading: jsonDecode(list[index])["name"] == "user"
-                    //                         ? false :(isLoading==true ?true:false ),
-                    //                     isLeft: jsonDecode(list[index])["name"] == "user"
-                    //                         ? false
-                    //                         : true,
-                    //                     content: jsonDecode(list[index])["message"]),
-                    //               ),
-                    //             ),
-                    //        ):
                     SizedBox(
                       width: jsonDecode(list[index])["name"] == "user"
                           ? size.width
