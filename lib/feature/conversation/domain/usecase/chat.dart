@@ -13,16 +13,19 @@ class PostChat implements UseCase<List<ChatData>, ChatParams> {
 
   @override
   Future<Either<Failure, List<ChatData>>> call(ChatParams params) async {
-    return await chatRepository!.postChat(params.sender!, params.message!);
+    return await chatRepository!
+        .postChat(params.sender, params.message, failure: params.failure);
   }
 }
 
 class ChatParams extends Equatable {
-  final String? sender;
-  final String? message;
+  final String sender;
+  final String message;
+  final Function() failure;
 
-  const ChatParams({@required this.sender, @required this.message});
+  const ChatParams(
+      {required this.sender, required this.message, required this.failure});
 
   @override
-  List<Object> get props => [sender!, message!];
+  List<Object> get props => [sender, message];
 }

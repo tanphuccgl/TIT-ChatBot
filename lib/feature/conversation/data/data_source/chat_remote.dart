@@ -11,7 +11,11 @@ List<ChatData> chatModelFromJson(String str) =>
     List<ChatData>.from(json.decode(str).map((x) => ChatData.fromJson(x)));
 
 abstract class ChatRemoteDataSource {
-  Future<List<ChatData>> chat(String sender, String message);
+  Future<List<ChatData>> chat(
+    String sender,
+    String message, {
+    required Function() failure,
+  });
 }
 
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
@@ -20,11 +24,16 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   ChatRemoteDataSourceImpl({@required this.client});
 
   @override
-  Future<List<ChatData>> chat(String sender, String message) {
-    return _chat(sender, message);
+  Future<List<ChatData>> chat(
+    String sender,
+    String message, {
+    required Function() failure,
+  }) {
+    return _chat(sender, message, failure: failure);
   }
 
-  Future<List<ChatData>> _chat(String sender, String message) async {
+  Future<List<ChatData>> _chat(String sender, String message,
+      {required Function() failure}) async {
     await Future.delayed(const Duration(seconds: 3));
     var body = jsonEncode({'sender': sender, 'message': message});
     final response = await client
@@ -34,7 +43,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
               "content-type": "application/json"
             },
             body: body)
-        .timeout(const Duration(seconds: 15), onTimeout: () {
+        .timeout(const Duration(seconds: 10), onTimeout: () {
       return http.Response("Error", 408);
     });
 
@@ -45,8 +54,12 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
       return success;
     } else if (response.statusCode == 408) {
-      throw ServerException();
+      failure();
+      var success = chatModelFromJson(response.body);
+
+      return success;
     } else {
+      failure();
       throw ServerException();
     }
   }

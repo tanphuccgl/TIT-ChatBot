@@ -33,7 +33,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (event is ChatE) {
      yield Loading();
       final result =
-      await postChat(ChatParams(message:  event.message, sender:  event.sender));
+      await postChat(ChatParams(message:  event.message, sender:  event.sender,failure: event.failure));
 
       yield* _eitherLoadedOrErrorState(result);
     }

@@ -13,6 +13,8 @@ class AA extends StatefulWidget {
 class AAState extends State<AA> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return  Scaffold(appBar: AppBar(),
+      body: Center(child: Text("dang bao tri nha ")),
+    );
   }
 }

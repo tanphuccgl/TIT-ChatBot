@@ -14,8 +14,8 @@ class ChatRepositoryImpl implements ChatRepository {
 
   ChatRepositoryImpl(
       {required this.networkInfo,
-        required this.chatLocalDataSource,
-        required this.chatRemoteDataSource});
+      required this.chatLocalDataSource,
+      required this.chatRemoteDataSource});
 
   @override
   Future<Either<Failure, List<ChatData>>> getCurrentChat() {
@@ -23,8 +23,12 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<Failure, List<ChatData>>> postChat(String sender, String message) {
-    return _chat(chatRemoteDataSource.chat(sender, message));
+  Future<Either<Failure, List<ChatData>>> postChat(
+    String sender,
+    String message, {
+    required Function() failure,
+  }) {
+    return _chat(chatRemoteDataSource.chat(sender, message, failure: failure));
   }
 
   Future<Either<Failure, List<ChatData>>> _getChat() async {
@@ -36,7 +40,8 @@ class ChatRepositoryImpl implements ChatRepository {
     }
   }
 
-  Future<Either<Failure, List<ChatData>>> _chat(Future<List<ChatData>> chatInfo) async {
+  Future<Either<Failure, List<ChatData>>> _chat(
+      Future<List<ChatData>> chatInfo) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await chatInfo;

@@ -9,6 +9,7 @@ import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat
 import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_event.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_state.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/widgets/suggestion.dart';
+import 'package:tit_chat_bot/widgets/dialog/dialog.dart';
 
 import 'bottom_mess.dart';
 import 'history_message.dart';
@@ -46,6 +47,7 @@ class _BodyConversationState extends State<BodyConversation> {
       if (state is Empty) {
         isChat();
       } else if (state is ChatAlready) {
+
         return buildBody();
       } else if (state is Loaded) {
         list.removeWhere((e) => e == "lazyLoading");
@@ -58,10 +60,17 @@ class _BodyConversationState extends State<BodyConversation> {
 
         return buildBody();
       } else if (state is Loading) {
+        list.removeWhere((e) => e == "lazyLoading");
+
+
         Map<String, dynamic> user = {'name': 'user', 'message': message};
 
-        Prefs.saveLocalListMessage(list,
-            user: jsonEncode(user), lazyLoading: "lazyLoading");
+        /// check message api timeout
+        if (message.isNotEmpty) {
+          Prefs.saveLocalListMessage(list,
+              user: jsonEncode(user), lazyLoading: "lazyLoading");
+        }
+
         message = "";
         return buildBody(isLoading: true);
       } else if (state is Error) {
@@ -152,10 +161,19 @@ class _BodyConversationState extends State<BodyConversation> {
     );
 
     messageController.text = "";
+    setState(() {
+
+    });
   }
 
   void chat() {
-    BlocProvider.of<ChatBloc>(context).add(ChatE(sender, message));
+    BlocProvider.of<ChatBloc>(context).add(ChatE(sender, message, failure: () {
+      maintenanceDialog(
+          context: context,
+          function: () {
+            Navigator.pop(context);
+          });
+    }));
   }
 
   void isChat() {

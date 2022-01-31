@@ -10,8 +10,8 @@ abstract class ChatEvent extends Equatable {
 class ChatE extends ChatEvent {
   final String sender;
   final String message;
-
-  ChatE(this.sender, this.message);
+  final Function() failure;
+  ChatE(this.sender, this.message,{required this.failure,});
   @override
   List<Object> get props => [sender, message];
 }
