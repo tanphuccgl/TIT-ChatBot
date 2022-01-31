@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tit_chat_bot/Prefs/prefs.dart';
-import 'package:tit_chat_bot/core/utils/my_colors.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_bloc.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_event.dart';
 import 'package:tit_chat_bot/feature/conversation/presentation/manager/chat/chat_state.dart';
@@ -90,31 +89,30 @@ class _BodyConversationState extends State<BodyConversation> {
             Expanded(
               child: SizedBox(
                   width: size.width,
-                  child: HistoryMessage(
-                    isLoading: isLoading,
-                    scrollController: _controller,
+                  child: GestureDetector(
+                    onTap: () => FocusScope.of(context).unfocus(),
+                    child: HistoryMessage(
+                      isLoading: isLoading,
+                      scrollController: _controller,
+                    ),
                   )),
             ),
             isShowSugg == true
                 ? Expanded(child: suggestionList())
                 : const SizedBox.shrink(),
-            Container(
-                color: MyColor.whiteBackground,
-                height: size.width / 6,
-                width: size.width,
-                child: XBottomMessage(
-                  leftCallBack: () {},
-                  messageController: messageController,
-                  onChangeTextField: (value) {
-                    message = value;
-                  },
-                  onSubmitTextField: (value) {
-                    sendMessage();
-                  },
-                  rightCallBack: () {
-                    sendMessage();
-                  },
-                )),
+            XBottomMessage(
+              leftCallBack: () {},
+              messageController: messageController,
+              onChangeTextField: (value) {
+                message = value;
+              },
+              onSubmitTextField: (value) {
+                sendMessage();
+              },
+              rightCallBack: () {
+                sendMessage();
+              },
+            ),
           ],
         ),
       ),
@@ -146,13 +144,13 @@ class _BodyConversationState extends State<BodyConversation> {
     if (message.isNotEmpty) {
       chat();
     }
-
     // auto scroll to end list view
     _controller.animateTo(
       0.0,
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 500),
     );
+
     messageController.text = "";
   }
 

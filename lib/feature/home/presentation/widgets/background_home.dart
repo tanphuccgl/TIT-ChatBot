@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tit_chat_bot/core/utils/my_assets.dart';
-import 'package:tit_chat_bot/widgets/message/message_chat.dart';
+import 'package:tit_chat_bot/widgets/message/message_title.dart';
 
 class XBackgroundHome extends StatelessWidget {
   const XBackgroundHome({Key? key}) : super(key: key);
@@ -16,8 +16,8 @@ class XBackgroundHome extends StatelessWidget {
         children: [
           const Align(
             alignment: Alignment.topRight,
-            child: MessageChat(
-              isUser: true,
+            child: MessageTitle(
+              isRight: true,
               label: label,
             ),
           ),
