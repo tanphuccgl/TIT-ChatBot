@@ -27,6 +27,7 @@ class _BodyConversationState extends State<BodyConversation> {
   late String message;
   late List<String> list;
   late ScrollController _controller;
+  late bool isShowSugg;
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _BodyConversationState extends State<BodyConversation> {
     list = Prefs.getLocalListMessage();
 
     messageController = TextEditingController();
+    isShowSugg = true;
 
     super.initState();
   }
@@ -47,7 +49,6 @@ class _BodyConversationState extends State<BodyConversation> {
       if (state is Empty) {
         isChat();
       } else if (state is ChatAlready) {
-
         return buildBody();
       } else if (state is Loaded) {
         list.removeWhere((e) => e == "lazyLoading");
@@ -62,10 +63,9 @@ class _BodyConversationState extends State<BodyConversation> {
       } else if (state is Loading) {
         list.removeWhere((e) => e == "lazyLoading");
 
-
         Map<String, dynamic> user = {'name': 'user', 'message': message};
 
-        /// check message api timeout
+        // check error message
         if (message.isNotEmpty) {
           Prefs.saveLocalListMessage(list,
               user: jsonEncode(user), lazyLoading: "lazyLoading");
@@ -74,10 +74,16 @@ class _BodyConversationState extends State<BodyConversation> {
         message = "";
         return buildBody(isLoading: true);
       } else if (state is Error) {
-        return Container();
+        return buildBody();
       } else if (state is NotChat) {
+        // check error message
+        if (Prefs.getLocalMessageUser() != "N/A" &&
+            Prefs.getLocalMessageAdmin() == "N/A") {
+          isShowSugg = false;
+        }
+
         return buildBody(
-          isShowSugg: true,
+          isShowSugg: isShowSugg,
         );
       }
       return Container();
@@ -161,9 +167,7 @@ class _BodyConversationState extends State<BodyConversation> {
     );
 
     messageController.text = "";
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void chat() {

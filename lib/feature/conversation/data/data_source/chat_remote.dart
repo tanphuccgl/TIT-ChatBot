@@ -55,9 +55,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       return success;
     } else if (response.statusCode == 408) {
       failure();
-      var success = chatModelFromJson(response.body);
-
-      return success;
+      throw ServerException();
     } else {
       failure();
       throw ServerException();
