@@ -116,7 +116,7 @@ class _BodyConversationState extends State<BodyConversation> {
                   )),
             ),
             isShowSugg == true
-                ? Expanded(child: suggestionList())
+                ? suggestionList()
                 : const SizedBox.shrink(),
             XBottomMessage(
               leftCallBack: () {},
@@ -155,6 +155,7 @@ class _BodyConversationState extends State<BodyConversation> {
           messageController.text = "";
         },
       ),
+
     ]);
   }
 
