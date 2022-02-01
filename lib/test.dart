@@ -14,7 +14,7 @@ class AAState extends State<AA> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(appBar: AppBar(),
-      body: Center(child: Text("dang bao tri nha ")),
+      body:const Center(child: Text("dang bao tri nha ")),
     );
   }
 }

@@ -24,7 +24,7 @@ class AlertDialog1 extends StatelessWidget {
     return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Stack(
-          overflow: Overflow.visible,
+        clipBehavior: Clip.none,
           alignment: Alignment.topCenter,
           children: [
             SizedBox(
@@ -156,9 +156,9 @@ void loadingDialog({BuildContext? context}) {
       backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Stack(
-        overflow: Overflow.visible,
+        clipBehavior: Clip.none,
         alignment: Alignment.topCenter,
-        children: [
+        children:const [
           SizedBox(
               height: 230,
               child: Padding(
