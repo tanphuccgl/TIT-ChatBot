@@ -73,7 +73,7 @@ class _BodyConversationState extends State<BodyConversation> {
 
         message = "";
 
-        return buildBody(isLoading: true);
+        return buildBody();
       } else if (state is Error) {
         Prefs.removeLazyLoading(list);
         return buildBody();
@@ -94,7 +94,7 @@ class _BodyConversationState extends State<BodyConversation> {
     });
   }
 
-  Widget buildBody({bool isShowSugg = false, bool isLoading = false}) {
+  Widget buildBody({bool isShowSugg = false}) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -111,7 +111,6 @@ class _BodyConversationState extends State<BodyConversation> {
                   child: GestureDetector(
                     onTap: () => FocusScope.of(context).unfocus(),
                     child: HistoryMessage(
-                      isLoading: isLoading,
                       scrollController: _controller,
                     ),
                   )),

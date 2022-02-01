@@ -7,17 +7,17 @@ import 'package:tit_chat_bot/widgets/message/message_chat.dart';
 import 'package:tit_chat_bot/widgets/message/message_loading.dart';
 
 class HistoryMessage extends StatelessWidget {
-  final bool isLoading;
   final ScrollController scrollController;
-  const HistoryMessage({Key? key, required this.isLoading, required this.scrollController}) : super(key: key);
+  const HistoryMessage({Key? key, required this.scrollController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-  
     final Size size = MediaQuery.of(context).size;
     List list = Prefs.getLocalListMessage().reversed.toList();
 
-    return ListView.builder(physics: const BouncingScrollPhysics(),
+    return ListView.builder(
+        physics: const BouncingScrollPhysics(),
         controller: scrollController,
         reverse: true,
         itemBuilder: (context, index) {
