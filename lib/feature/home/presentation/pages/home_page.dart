@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(padding, padding, padding, 0),
+          padding: EdgeInsets.fromLTRB(padding, padding, padding, padding),
           child: Column(
             children: [
               const XHeader(),
