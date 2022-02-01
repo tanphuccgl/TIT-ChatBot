@@ -43,6 +43,11 @@ class Prefs {
     return _prefs.getStringList("list") ?? [];
   }
 
+  static void removeLazyLoading(List<String> list) {
+    list.removeWhere((e) => e == "lazyLoading");
+    _prefs.setStringList('list', list);
+  }
+
   static void removeAllMessage() {
     _prefs.remove("list");
     _prefs.remove("user");

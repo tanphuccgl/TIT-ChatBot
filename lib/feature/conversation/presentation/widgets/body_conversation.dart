@@ -51,7 +51,7 @@ class _BodyConversationState extends State<BodyConversation> {
       } else if (state is ChatAlready) {
         return buildBody();
       } else if (state is Loaded) {
-        list.removeWhere((e) => e == "lazyLoading");
+        Prefs.removeLazyLoading(list);
 
         String appChat = state.data.first.text ?? "N/A";
 
@@ -61,7 +61,7 @@ class _BodyConversationState extends State<BodyConversation> {
 
         return buildBody();
       } else if (state is Loading) {
-        list.removeWhere((e) => e == "lazyLoading");
+        Prefs.removeLazyLoading(list);
 
         Map<String, dynamic> user = {'name': 'user', 'message': message};
 
@@ -72,10 +72,14 @@ class _BodyConversationState extends State<BodyConversation> {
         }
 
         message = "";
+
         return buildBody(isLoading: true);
       } else if (state is Error) {
+        Prefs.removeLazyLoading(list);
         return buildBody();
       } else if (state is NotChat) {
+        Prefs.removeLazyLoading(list);
+
         // check error message
         if (Prefs.getLocalMessageUser() != "N/A" &&
             Prefs.getLocalMessageAdmin() == "N/A") {
