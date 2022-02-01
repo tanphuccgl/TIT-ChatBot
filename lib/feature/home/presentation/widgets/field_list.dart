@@ -14,8 +14,8 @@ class XFieldList extends StatelessWidget {
       itemBuilder: (context, index) {
         return Column(
           children: [
-            FieldItem(data: listField1[index]),
-            FieldItem(data: listField2[index]),
+            Expanded(child: FieldItem(data: listField1[index])),
+            Expanded(child: FieldItem(data: listField2[index])),
           ],
         );
       },
