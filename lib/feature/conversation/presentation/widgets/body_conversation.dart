@@ -77,7 +77,6 @@ class _BodyConversationState extends State<BodyConversation> {
         Prefs.removeMessLoading(list);
         return buildBody();
       } else if (state is Loaded) {
-      
         String appChat = state.data.first.text ?? "N/A";
 
         Map<String, dynamic> admin = {'name': 'admin', 'message': appChat};
@@ -89,14 +88,12 @@ class _BodyConversationState extends State<BodyConversation> {
 
         return buildBody();
       } else if (state is Loading) {
-      
         Prefs.removeMessLoading(list);
 
         Map<String, dynamic> user = {'name': 'user', 'message': message};
 
         // check error message
         if (message.isNotEmpty) {
-         
           Prefs.saveLocalListMessage(list,
               user: jsonEncode(user), messLoading: "messLoading");
         }
@@ -149,7 +146,8 @@ class _BodyConversationState extends State<BodyConversation> {
               child: SizedBox(
                   width: size.width,
                   child: GestureDetector(
-                    onTap: () => FocusScope.of(context).unfocus(),
+                    onTap: () =>
+                        FocusScope.of(context).requestFocus(FocusNode()),
                     child: HistoryMessage(
                       isLazyLoad: isLazyLoad,
                       itemCount: itemCount,
