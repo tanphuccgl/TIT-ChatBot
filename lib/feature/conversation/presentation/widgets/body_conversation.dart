@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -28,19 +29,43 @@ class _BodyConversationState extends State<BodyConversation> {
   late List<String> list;
   late ScrollController _controller;
   late bool isShowSugg;
-
+  late int itemCount;
+  late bool isLazyLoad;
   @override
   void initState() {
+    messageController = TextEditingController();
+    _controller = ScrollController()..addListener(_scrollListener);
+
     sender = "";
     message = "";
-    _controller = ScrollController();
+    isShowSugg = true;
+    isLazyLoad = false;
 
     list = Prefs.getLocalListMessage();
-
-    messageController = TextEditingController();
-    isShowSugg = true;
+    if (list.length >= 20) {
+      itemCount = 20;
+    } else {
+      itemCount = list.length;
+    }
 
     super.initState();
+  }
+
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent &&
+        list.length >= 20) {
+      isLazyLoad = true;
+      setState(() {});
+      Timer(const Duration(milliseconds: 500), () {
+        setState(() {});
+        isLazyLoad = false;
+        itemCount += 20;
+        if (itemCount >= list.length) {
+          itemCount = list.length;
+        }
+        setState(() {});
+      });
+    }
   }
 
   @override
@@ -49,26 +74,28 @@ class _BodyConversationState extends State<BodyConversation> {
       if (state is Empty) {
         isChat();
       } else if (state is ChatAlready) {
+        Prefs.removeMessLoading(list);
         return buildBody();
       } else if (state is Loaded) {
-        Prefs.removeLazyLoading(list);
-
         String appChat = state.data.first.text ?? "N/A";
 
         Map<String, dynamic> admin = {'name': 'admin', 'message': appChat};
-
-        Prefs.saveLocalListMessage(list, admin: jsonEncode(admin));
+        if (list.contains("messLoading")) {
+          Prefs.saveLocalListMessage(list, admin: jsonEncode(admin));
+          Prefs.removeMessLoading(list);
+        }
 
         return buildBody();
       } else if (state is Loading) {
-        Prefs.removeLazyLoading(list);
+       
+        Prefs.removeMessLoading(list);
 
         Map<String, dynamic> user = {'name': 'user', 'message': message};
 
         // check error message
         if (message.isNotEmpty) {
           Prefs.saveLocalListMessage(list,
-              user: jsonEncode(user), lazyLoading: "lazyLoading");
+              user: jsonEncode(user), messLoading: "messLoading");
         }
 
         message = "";
@@ -83,10 +110,10 @@ class _BodyConversationState extends State<BodyConversation> {
           );
         }
 
-        Prefs.removeLazyLoading(list);
+        Prefs.removeMessLoading(list);
         return buildBody();
       } else if (state is NotChat) {
-        Prefs.removeLazyLoading(list);
+        Prefs.removeMessLoading(list);
 
         // check error message
         if (Prefs.getLocalMessageUser() != "N/A" &&
@@ -119,6 +146,8 @@ class _BodyConversationState extends State<BodyConversation> {
                   child: GestureDetector(
                     onTap: () => FocusScope.of(context).unfocus(),
                     child: HistoryMessage(
+                      isLazyLoad: isLazyLoad,
+                      itemCount: itemCount,
                       scrollController: _controller,
                     ),
                   )),

@@ -8,7 +8,13 @@ import 'package:tit_chat_bot/widgets/message/message_loading.dart';
 
 class HistoryMessage extends StatelessWidget {
   final ScrollController scrollController;
-  const HistoryMessage({Key? key, required this.scrollController})
+  final int itemCount;
+  final bool isLazyLoad;
+  const HistoryMessage(
+      {Key? key,
+      required this.scrollController,
+      required this.isLazyLoad,
+      required this.itemCount})
       : super(key: key);
 
   @override
@@ -21,7 +27,54 @@ class HistoryMessage extends StatelessWidget {
         controller: scrollController,
         reverse: true,
         itemBuilder: (context, index) {
-          if (list[index] == "lazyLoading") {
+          if (index == itemCount - 1 && list.length != itemCount) {
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 40,
+                ),
+                isLazyLoad
+                    ? const SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CircularProgressIndicator(
+                          color: Colors.blue,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    jsonDecode(list[index])["name"] == "user"
+                        ? const SizedBox.shrink()
+                        : _avatarBotChat(context),
+                    SizedBox(
+                      width: jsonDecode(list[index])["name"] == "user"
+                          ? size.width
+                          : size.width / 1.15,
+                      child: Align(
+                        alignment:
+                            jsonDecode(list[index])["name"] == "user"
+                                ? Alignment.topRight
+                                : Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: MessageChat(
+                            isUser:
+                                jsonDecode(list[index])["name"] == "user"
+                                    ? false
+                                    : true,
+                            label: jsonDecode(list[index])["message"],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }
+          if (list[index] == "messLoading") {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -67,7 +120,7 @@ class HistoryMessage extends StatelessWidget {
             ],
           );
         },
-        itemCount: list.length);
+        itemCount: list.length < 20 ? list.length : itemCount);
   }
 }
 

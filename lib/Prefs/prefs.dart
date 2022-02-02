@@ -15,8 +15,12 @@ class Prefs {
     _prefs.setString('admin', message);
   }
 
-  static void saveLocalListMessage(List<String> list,
-      {String user = "", String admin = "", String lazyLoading = ""}) {
+  static void saveLocalListMessage(
+    List<String> list, {
+    String user = "",
+    String admin = "",
+    String messLoading = "",
+  }) {
     if (user != "") {
       Prefs.saveLocalMessageUser(user);
       list.add(getLocalMessageUser());
@@ -25,9 +29,10 @@ class Prefs {
       Prefs.saveLocalMessageAdmin(admin);
       list.add(getLocalMessageAdmin());
     }
-    if (lazyLoading != "") {
-      list.add("lazyLoading");
+    if (messLoading != "") {
+      list.add("messLoading");
     }
+
     _prefs.setStringList('list', list);
   }
 
@@ -43,8 +48,8 @@ class Prefs {
     return _prefs.getStringList("list") ?? [];
   }
 
-  static void removeLazyLoading(List<String> list) {
-    list.removeWhere((e) => e == "lazyLoading");
+  static void removeMessLoading(List<String> list) {
+    list.removeWhere((e) => e == "messLoading");
     _prefs.setStringList('list', list);
   }
 
