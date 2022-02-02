@@ -75,6 +75,14 @@ class _BodyConversationState extends State<BodyConversation> {
 
         return buildBody();
       } else if (state is Error) {
+        Map<String, dynamic> user = {'name': 'user', 'message': message};
+        if (message.isNotEmpty) {
+          Prefs.saveLocalListMessage(
+            list,
+            user: jsonEncode(user),
+          );
+        }
+
         Prefs.removeLazyLoading(list);
         return buildBody();
       } else if (state is NotChat) {
@@ -115,9 +123,7 @@ class _BodyConversationState extends State<BodyConversation> {
                     ),
                   )),
             ),
-            isShowSugg == true
-                ? suggestionList()
-                : const SizedBox.shrink(),
+            isShowSugg == true ? suggestionList() : const SizedBox.shrink(),
             XBottomMessage(
               leftCallBack: () {},
               messageController: messageController,
@@ -155,7 +161,6 @@ class _BodyConversationState extends State<BodyConversation> {
           messageController.text = "";
         },
       ),
-
     ]);
   }
 
