@@ -80,6 +80,7 @@ class _BodyConversationState extends State<BodyConversation> {
         String appChat = state.data.first.text ?? "N/A";
 
         Map<String, dynamic> admin = {'name': 'admin', 'message': appChat};
+        // check duplicate message on reload
         if (list.contains("messLoading")) {
           Prefs.saveLocalListMessage(list, admin: jsonEncode(admin));
           Prefs.removeMessLoading(list);
@@ -87,7 +88,6 @@ class _BodyConversationState extends State<BodyConversation> {
 
         return buildBody();
       } else if (state is Loading) {
-       
         Prefs.removeMessLoading(list);
 
         Map<String, dynamic> user = {'name': 'user', 'message': message};
@@ -102,6 +102,7 @@ class _BodyConversationState extends State<BodyConversation> {
 
         return buildBody();
       } else if (state is Error) {
+        // check no internet connection
         Map<String, dynamic> user = {'name': 'user', 'message': message};
         if (message.isNotEmpty) {
           Prefs.saveLocalListMessage(
@@ -210,11 +211,14 @@ class _BodyConversationState extends State<BodyConversation> {
 
   void chat() {
     BlocProvider.of<ChatBloc>(context).add(ChatE(sender, message, failure: () {
-      maintenanceDialog(
-          context: context,
-          function: () {
-            Navigator.pop(context);
-          });
+      ///để đảm bảo State tồn tại trước khi gọi setState ()
+      if (mounted) {
+        setState(() => maintenanceDialog(
+            context: context,
+            function: () {
+              Navigator.pop(context);
+            }));
+      }
     }));
   }
 
