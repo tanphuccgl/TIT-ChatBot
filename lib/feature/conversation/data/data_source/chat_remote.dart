@@ -34,7 +34,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
   Future<List<ChatData>> _chat(String sender, String message,
       {required Function() failure}) async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     var body = jsonEncode({'sender': sender, 'message': message});
     final response = await client
         ?.post(Uri.parse(mainUrl),
@@ -43,7 +43,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
               "content-type": "application/json"
             },
             body: body)
-        .timeout(const Duration(seconds: 10), onTimeout: () {
+        .timeout(const Duration(seconds: 7), onTimeout: () {
       return http.Response("Error", 408);
     });
 
